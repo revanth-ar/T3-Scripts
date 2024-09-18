@@ -178,10 +178,13 @@ public class SelectionForm : Form
     private void UpdateNumericColumns()
     {
         var showHidden = ShowHiddenColumnsCheckBox.Checked;
+
+        //T3 picking error here when saved as Macro
         var numericColumnsnew = Model.AllColumns
             .Where(col => (col.DataType == DataType.Int64 || col.DataType == DataType.Double || col.DataType == DataType.Decimal) && (!col.IsHidden || showHidden))
             .ToList();
-        
+        //
+
         columnsByTableMain = numericColumnsnew
             .GroupBy(col => col.Table.Name)
             .ToDictionary(g => g.Key, g => g.Select(col => col.Name).ToArray());
