@@ -7,6 +7,7 @@ using System.Collections.Generic;
 // Custom form for selecting columns and aggregation types with search functionality
 public class SelectionForm : Form
 {
+    public Model Model;
     public Label ColumnsLabel;
     public Label AggregationsLabel;
     public CheckedListBox AggregationsCheckedListBox;
@@ -18,8 +19,9 @@ public class SelectionForm : Form
     public CheckBox ShowHiddenColumnsCheckBox;
     public Dictionary<string, string[]> columnsByTableMain;
 
-    public SelectionForm(string[] tableNames, Dictionary<string, string[]> columnsByTable)
+    public SelectionForm(string[] tableNames, Dictionary<string, string[]> columnsByTable, Model model)
     {
+        Model = model;
         columnsByTableMain = columnsByTable;
 
         Text = "Select Columns and Aggregation Types";
@@ -213,7 +215,7 @@ if (Model != null)
             .ToDictionary(g => g.Key, g => g.Select(col => col.Name).ToArray());
 
         // Show the custom form to select columns and aggregation types
-        var form = new SelectionForm(columnsByTable.Keys.ToArray(), columnsByTable);
+        var form = new SelectionForm(columnsByTable.Keys.ToArray(), columnsByTable, Model);
         if (form.ShowDialog() == DialogResult.OK)
         {
             var selectedColumns = form.GetSelectedColumns();
